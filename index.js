@@ -58,9 +58,13 @@ app.post("/webhook", async (req, res) => {
             { headers: { Authorization: `Bearer ${token}` } }
         );
     } catch (error) {
-        console.error("Error handling message:", error.message);
-        // res.sendStatus(200); // Still acknowledge to prevent retries
+        if (error.response) {
+            console.error("Meta API Error:", error.response.data);
+        } else {
+            console.error("Axios Error:", error.message);
+        }
     }
+
 });
 
 const PORT = process.env.PORT || 4343;
