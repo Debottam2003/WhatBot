@@ -1,6 +1,6 @@
 import express from "express";
 import axios from "axios";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 
 dotenv.config();
