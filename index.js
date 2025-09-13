@@ -41,10 +41,10 @@ app.post("/webhook", async (req, res) => {
 
         console.log("User said:", text);
 
-        const result = await model.generateContent(text);
-        const reply = result.response.text();
+        // const result = await model.generateContent(text);
+        // const reply = result.response.text();
 
-        console.log("AI Response:", reply);
+        // console.log("AI Response:", reply);
 
         // Reply back via WhatsApp
         await axios.post(
@@ -52,14 +52,14 @@ app.post("/webhook", async (req, res) => {
             {
                 messaging_product: "whatsapp",
                 to: from,
-                text: { body: reply },
+                text: { body: text },
             },
             { headers: { Authorization: `Bearer ${token}` } }
         );
 
         res.sendStatus(200);
     } catch (error) {
-        console.error("Error handling message:", error.message);
+        console.error("Error handling message:", error);
         res.sendStatus(200); // Still acknowledge to prevent retries
     }
 });
