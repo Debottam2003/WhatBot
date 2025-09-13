@@ -36,6 +36,7 @@ app.post("/webhook", async (req, res) => {
     }
 
     try {
+        res.sendStatus(200);
         const from = message.from;
         const text = message.text?.body || "";
 
@@ -56,10 +57,8 @@ app.post("/webhook", async (req, res) => {
             },
             { headers: { Authorization: `Bearer ${token}` } }
         );
-
-        res.sendStatus(200);
     } catch (error) {
-        console.error("Error handling message:", error);
+        console.error("Error handling message:", error.message);
         res.sendStatus(200); // Still acknowledge to prevent retries
     }
 });
