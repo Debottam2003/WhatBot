@@ -59,7 +59,7 @@ app.post("/webhook", async (req, res) => {
         );
     } catch (error) {
         console.error("Error handling message:", error.message);
-        res.sendStatus(200); // Still acknowledge to prevent retries
+        // res.sendStatus(200); // Still acknowledge to prevent retries
     }
 });
 
