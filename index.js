@@ -42,10 +42,10 @@ app.post("/webhook", async (req, res) => {
 
         console.log("User said:", text);
 
-        // const result = await model.generateContent(text);
-        // const reply = result.response.text();
+        const result = await model.generateContent(text);
+        const reply = result.response.text();
 
-        // console.log("AI Response:", reply);
+        console.log("AI Response:", reply);
 
         // Reply back via WhatsApp
         await axios.post(
@@ -53,7 +53,7 @@ app.post("/webhook", async (req, res) => {
             {
                 messaging_product: "whatsapp",
                 to: from,
-                text: { body: text },
+                text: { body: reply },
             },
             { headers: { Authorization: `Bearer ${token}` } }
         );
