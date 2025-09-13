@@ -5,8 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const ai = new GoogleGenerativeAI(process.env.AI_KEY);
-const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
+const ai = new GoogleGenAI({ apiKey: process.env.AI_KEY });
 
 const app = express();
 app.use(express.json());
@@ -42,8 +41,12 @@ app.post("/webhook", async (req, res) => {
 
         console.log("User said:", text);
 
-        const result = await model.generateContent(text);
-        const reply = result.response.text();
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: text,
+        });
+        const reply = response.text;
+        console.log(reply);
 
         console.log("AI Response:", reply);
 
