@@ -6,17 +6,19 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const ai = new GoogleGenerativeAI(process.env.AI_KEY);
+const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const app = express();
 app.use(express.json());
 
 const token = process.env.TOKEN;
 const phoneNumberId = process.env.PHONE_NUMBER_ID;
+const secret = process.env.SECRET;
 
 // Webhook verification
 app.get("/webhook", (req, res) => {
     console.log("GET request came");
-    if (req.query["hub.verify_token"] === "mysecret") {
+    if (req.query["hub.verify_token"] === secret) {
         res.send(req.query["hub.challenge"]);
     } else {
         res.status(403).send("Error, wrong token");
@@ -38,8 +40,6 @@ app.post("/webhook", async (req, res) => {
         const text = message.text?.body || "";
 
         console.log("User said:", text);
-
-        const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
 
         const result = await model.generateContent(text);
         const reply = result.response.text();
